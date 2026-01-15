@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>crack_processing module &#8212; self_healing_microscopy / documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=22e28226"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="utils module" href="utils.html" />
+    <link rel="prev" title="alignment module" href="alignment.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-crack_processing">
+<span id="crack-processing-module"></span><h1>crack_processing module<a class="headerlink" href="#module-crack_processing" title="Link to this heading">¶</a></h1>
+<p>crack_processing Module</p>
+<p>This module provides functionality for detecting and measuring cracks in images using image processing techniques.
+It includes watershed segmentation, skeletonization, and metric calculations for crack analysis.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="crack_processing.evaluate_cracks">
+<span class="sig-prename descclassname"><span class="pre">crack_processing.</span></span><span class="sig-name descname"><span class="pre">evaluate_cracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">markers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_aspect_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_rotation_angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rotation_angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polyfit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist_poly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crack_processing.evaluate_cracks" title="Link to this definition">¶</a></dt>
+<dd><p>Evaluate and filter detected cracks based on area, aspect ratio, and polynomial fit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>markers</strong> (<em>numpy.ndarray</em>) – Labeled image markers.</p></li>
+<li><p><strong>contour</strong> (<em>numpy.ndarray</em>) – The contour of the crack.</p></li>
+<li><p><strong>min_aspect_ratio</strong> (<em>float</em>) – Minimum aspect ratio threshold.</p></li>
+<li><p><strong>min_rotation_angle</strong> (<em>int</em>) – Minimum rotation angle in degrees.</p></li>
+<li><p><strong>max_rotation_angle</strong> (<em>int</em>) – Maximum rotation angle in degrees.</p></li>
+<li><p><strong>rotation_step</strong> (<em>int</em>) – Step size for rotation angles.</p></li>
+<li><p><strong>max_area</strong> (<em>int</em>) – Maximum area threshold for cracks.</p></li>
+<li><p><strong>min_area</strong> (<em>int</em>) – Minimum area threshold for cracks.</p></li>
+<li><p><strong>polyfit</strong> (<em>bool</em>) – Whether to use polynomial fitting for filtering.</p></li>
+<li><p><strong>deg</strong> (<em>int</em>) – Degree of the polynomial.</p></li>
+<li><p><strong>max_dist_poly</strong> (<em>float</em>) – Maximum distance from polynomial for valid cracks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of valid contours and updated markers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crack_processing.watershed">
+<span class="sig-prename descclassname"><span class="pre">crack_processing.</span></span><span class="sig-name descname"><span class="pre">watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_coeff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crack_processing.watershed" title="Link to this definition">¶</a></dt>
+<dd><p>Perform watershed segmentation to detect cracks in an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_path</strong> (<em>str</em>) – Path to the input image.</p></li>
+<li><p><strong>dist_coeff</strong> (<em>float</em>) – Distance coefficient for thresholding.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image with detected cracks highlighted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crack_processing.skeletonize">
+<span class="sig-prename descclassname"><span class="pre">crack_processing.</span></span><span class="sig-name descname"><span class="pre">skeletonize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_binary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crack_processing.skeletonize" title="Link to this definition">¶</a></dt>
+<dd><p>Reduces a binary shape to a central line of 1 pixel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>img_binary</strong> (<em>numpy.ndarray</em>) – Binary image to skeletonize.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Skeletonized image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crack_processing.find_scale">
+<span class="sig-prename descclassname"><span class="pre">crack_processing.</span></span><span class="sig-name descname"><span class="pre">find_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crack_processing.find_scale" title="Link to this definition">¶</a></dt>
+<dd><p>Computes a pixel‑to‑unit scale factor by detecting the longest horizontal
+run of black pixels in a cropped binary image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_path</strong> (<em>str</em>) – Path to the input image.</p></li>
+<li><p><strong>scale</strong> (<em>float</em>) – Reference physical size or unit length used to compute the
+final scale factor. Defaults to 200.</p></li>
+<li><p><strong>crop_factor</strong> (<em>int</em>) – Factor controlling how much of the image border is
+cropped. The image is cropped by width//crop_factor
+and height//crop_factor. Defaults to 50.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed scale factor defined as <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">/</span> <span class="pre">longest_run</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crack_processing.crack_measure">
+<span class="sig-prename descclassname"><span class="pre">crack_processing.</span></span><span class="sig-name descname"><span class="pre">crack_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crack_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squelette</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_result</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crack_processing.crack_measure" title="Link to this definition">¶</a></dt>
+<dd><p>Measure crack properties including area, length, and average width.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>img_path</strong> (<em>str</em>) – The input image.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image with crack measurements visualized.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crack_processing.processing_images_in_directory">
+<span class="sig-prename descclassname"><span class="pre">crack_processing.</span></span><span class="sig-name descname"><span class="pre">processing_images_in_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'crack_detection'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#crack_processing.processing_images_in_directory" title="Link to this definition">¶</a></dt>
+<dd><p>Process all images in the input directory for crack detection or measurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>dict</em>) – Dictionary of arguments. (list : input, output, new_width, scale, dist_coeff, crop_factor, min_aspect_ratio, min_rotation_angle, max_rotation_angle, rotation_step, max_area, min_area, polyfit, deg, max_dist_poly)</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Mode of operation: ‘crack_detection’ or ‘crack_measurement’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crack_processing.main">
+<span class="sig-prename descclassname"><span class="pre">crack_processing.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#crack_processing.main" title="Link to this definition">¶</a></dt>
+<dd><p>Main function to process images for crack detection.</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">self_healing_microscopy</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="alignment.html">alignment module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">crack_processing module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#crack_processing.evaluate_cracks"><code class="docutils literal notranslate"><span class="pre">evaluate_cracks()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crack_processing.watershed"><code class="docutils literal notranslate"><span class="pre">watershed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crack_processing.skeletonize"><code class="docutils literal notranslate"><span class="pre">skeletonize()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crack_processing.find_scale"><code class="docutils literal notranslate"><span class="pre">find_scale()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crack_processing.crack_measure"><code class="docutils literal notranslate"><span class="pre">crack_measure()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crack_processing.processing_images_in_directory"><code class="docutils literal notranslate"><span class="pre">processing_images_in_directory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crack_processing.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">utils module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="alignment.html" title="previous chapter">alignment module</a></li>
+      <li>Next: <a href="utils.html" title="next chapter">utils module</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bayon & Zahir.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/crack_processing.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

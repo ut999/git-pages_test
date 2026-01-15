@@ -1,0 +1,8 @@
+crack_processing module
+========================
+
+.. automodule:: crack_processing
+   :members: 
+   :show-inheritance:
+   :undoc-members:
+   :exclude-members: parse_command_line_arguments
